@@ -16,7 +16,7 @@ after_success:
     - docker build -t kcbigring/multi-worker ./worker
     # push images to docker hub
     #    login
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-sdtdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     - docker push kcbigring/multi-client
     - docker push kcbigring/multi-nginx
     - docker push kcbigring/multi-server
