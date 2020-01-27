@@ -1,6 +1,23 @@
 language: generic 
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t kcbigring/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-    - docker run -e CI=true USERNAME/react-test npm test
+    - docker run -e CI=true kcbigring/react-test npm test
 
-
+after_success:
+    - docker build -t kcbigring/multi-client ./client
+    - docker build -t kcbigring/multi-nginx ./nginx
+    - docker build -t kcbigring/multi-server ./server
+    - docker build -t kcbigring/multi-worker ./worker
+    # push images to docker hub
+    #    login
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-sdtdin
+    - docker push kcbigring/multi-client
+    - docker push kcbigring/multi-nginx
+    - docker push kcbigring/multi-server
+    - docker push kcbigring/multi-worker
