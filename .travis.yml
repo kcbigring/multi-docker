@@ -15,9 +15,21 @@ after_success:
     - docker build -t kcbigring/multi-server ./server
     - docker build -t kcbigring/multi-worker ./worker
     # push images to docker hub
-    #    login
+    #    need to login to docker hub...
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     - docker push kcbigring/multi-client
     - docker push kcbigring/multi-nginx
     - docker push kcbigring/multi-server
     - docker push kcbigring/multi-worker
+
+    deploy:
+        provider: elasticbeanstalk
+        region: "us-east-2"
+        app: "multi-docker"
+        env: "MultiDocker-env-1"
+        bucket_name: "elasticbeanstalk-us-east-2-166881153951"
+        bucket_path: "docker-multi"
+        access_key_id: $AWS_ACCESS_KEY
+        secret_access_key: $AWS_SECRET_KEY
+        on:
+            branch: master
