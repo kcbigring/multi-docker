@@ -22,14 +22,14 @@ after_success:
     - docker push kcbigring/multi-server
     - docker push kcbigring/multi-worker
 
-    deploy:
-        provider: elasticbeanstalk
-        region: "us-east-2"
-        app: "multi-docker"
-        env: "MultiDocker-env-1"
-        bucket_name: "elasticbeanstalk-us-east-2-166881153951"
-        bucket_path: "docker-multi"
-        access_key_id: $AWS_ACCESS_KEY
-        secret_access_key: $AWS_SECRET_KEY
-        on:
-            branch: master
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "multi-docker"
+    env: "MultiDocker-env-1"
+    bucket_name: "elasticbeanstalk-us-east-2-166881153951"
+    bucket_path: "docker-multi"
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    on:
+        branch: master
